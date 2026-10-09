@@ -39,10 +39,11 @@ public final class ConnectionManager {
             }
 
             HikariConfig config = new HikariConfig();
-            String url = System.getProperty("DB_URL", props.getProperty("db.url", "jdbc:mysql://localhost:3306/library_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8"));
-            String username = System.getProperty("DB_USER", props.getProperty("db.username", "root"));
-            String password = System.getProperty("DB_PASSWORD", props.getProperty("db.password", ""));
-            String driver = props.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
+            // Resolution order: env var → system property → db.properties → default
+            String url      = resolveConfig("DB_URL",      "DB_URL",      props, "db.url",      "jdbc:mysql://localhost:3306/library_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8");
+            String username = resolveConfig("DB_USER",     "DB_USER",     props, "db.username",  "root");
+            String password = resolveConfig("DB_PASSWORD", "DB_PASSWORD", props, "db.password",  "");
+            String driver   = props.getProperty("db.driver", "com.mysql.cj.jdbc.Driver");
 
             config.setJdbcUrl(url);
             config.setUsername(username);
@@ -105,5 +106,23 @@ public final class ConnectionManager {
                 }
             }
         }
+    }
+
+    /**
+     * Resolves a configuration value using the following priority order:
+     * 1. Environment variable (e.g., set by Railway / Docker)
+     * 2. JVM system property (-D flag)
+     * 3. Properties file value
+     * 4. Hard-coded default
+     */
+    private static String resolveConfig(String envKey, String sysPropKey,
+                                        Properties props, String propKey, String defaultValue) {
+        String envVal = System.getenv(envKey);
+        if (envVal != null && !envVal.isBlank()) return envVal;
+        String sysPropVal = System.getProperty(sysPropKey);
+        if (sysPropVal != null && !sysPropVal.isBlank()) return sysPropVal;
+        String propVal = props.getProperty(propKey);
+        if (propVal != null && !propVal.isBlank()) return propVal;
+        return defaultValue;
     }
 }

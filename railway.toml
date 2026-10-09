@@ -1,0 +1,17 @@
+# railway.toml — Railway deployment configuration
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "catalina.sh run"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+# Health check — Railway will wait for HTTP 200 before marking as healthy
+[[deploy.healthchecks]]
+type = "http"
+path = "/"
+initialDelaySeconds = 30
+timeoutSeconds = 10
+periodSeconds = 15
