@@ -198,7 +198,7 @@ db.password=your_mysql_password
 mvn clean test
 ```
 
-### 4. Launch Application (Option A: Zero-Config Embedded Server)
+### 4. Run Locally (Option A: Zero-Config Embedded Server)
 Compile and launch the embedded Tomcat server:
 ```bash
 mvn compile
@@ -207,7 +207,14 @@ mvn exec:java -Dexec.mainClass="com.library.Main"
 The server starts immediately on port **8080**. Open your browser at:
 👉 **[http://localhost:8080/library](http://localhost:8080/library)**
 
-### 5. Build Production WAR (Option B: Standalone Tomcat 10)
+### 5. Run Locally (Option B: Docker)
+You can also run the application locally using the provided Dockerfile. Ensure your local MySQL instance is accessible to Docker (e.g., via `host.docker.internal`):
+```bash
+docker build -t library-app .
+docker run -p 8080:8080 -e MYSQL_HOST=host.docker.internal -e DB_PASSWORD=your_mysql_password library-app
+```
+
+### 6. Build Production WAR (Option C: Standalone Tomcat 10)
 ```bash
 mvn clean package
 ```
