@@ -7,7 +7,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-8.0%2F9.0-00758F.svg)](https://www.mysql.com/)
 [![HikariCP](https://img.shields.io/badge/HikariCP-5.1.0-brightgreen.svg)](https://github.com/brettwooldridge/HikariCP)
 [![Build](https://img.shields.io/badge/Build-Maven%20Passing-success.svg)]()
-[![Rubric Compliance](https://img.shields.io/badge/Academic%20Rubric-50%2F50%20Marks-gold.svg)]()
+
 
 An enterprise-grade, high-concurrency **Online Library Management System** developed strictly adhering to **Core Java 21 LTS**, **Jakarta Servlets 6.0**, **Jakarta Server Pages (JSP) 3.1**, **JSTL 3.0**, **JDBC**, and **MySQL 8.0/9.0**.
 
